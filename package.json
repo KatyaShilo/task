@@ -1,0 +1,17 @@
+{
+  "name": "playwright-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tests":"npx playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.0",
+    "@playwright/test": "^1.41.2",
+    "@types/node": "^20.11.16"
+  }
+}
