@@ -1,9 +1,8 @@
 import { test, expect, devices } from '@playwright/test';
 
 test.use({
-    // Use Playwright's predefined mobile device emulation for iPhone 12
     ...devices['iPhone 12'],
-    viewport: { width: 390, height: 844 }, // Customize if needed
+    viewport: { width: 390, height: 844 }
   });
 
 test.describe('Three.js FPS Performance Test for Mobile', () => {
@@ -11,7 +10,6 @@ test.describe('Three.js FPS Performance Test for Mobile', () => {
   test('should measure and verify FPS of the Three.js scene on mobile', async ({ page }) => {
     await page.goto('https://threejs.org/examples/#webgl_instancing_performance');
 
-    // Wait for the iframe to load and be accessible
     const iframeElement = await page.waitForSelector('#viewer', { timeout: 20000 });
     const frame = await iframeElement.contentFrame();
 
@@ -22,7 +20,7 @@ test.describe('Three.js FPS Performance Test for Mobile', () => {
     }
 
     let fps = '';
-    for (let i = 0; i < 5; i++) { // Retry up to 5 times
+    for (let i = 0; i < 5; i++) {
       try {
         fps = await frame.evaluate(async () => {
           let frameCount = 0;
@@ -32,23 +30,23 @@ test.describe('Three.js FPS Performance Test for Mobile', () => {
             function measureFPS() {
               frameCount++;
               const elapsed = performance.now() - start;
-              if (elapsed < 5000) { // Measure over 5 seconds
+              if (elapsed < 5000) { 
                 requestAnimationFrame(measureFPS);
               } else {
-                resolve((frameCount / 5).toFixed(2)); // Average FPS over 5 seconds
+                resolve((frameCount / 5).toFixed(2));
               }
             }
             measureFPS();
           });
         });
-        break; // Exit loop if successful
+        break;
       } catch (e) {
         console.warn('Retrying FPS measurement due to navigation interruption...');
-        await page.waitForTimeout(1000); // Wait briefly before retrying
+        await page.waitForTimeout(1000);
       }
     }
 
     console.log(`Average FPS on mobile: ${fps}`);
-    expect(Number(fps)).toBeGreaterThan(30); // Set a mobile-friendly FPS threshold
+    expect(Number(fps)).toBeGreaterThan(30); 
   });
 });

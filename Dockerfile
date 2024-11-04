@@ -10,4 +10,4 @@ COPY . .
 
 RUN npx playwright install
 
-CMD ["npx", "playwright", "test"]
+CMD ["npm", "run", "tests"]
